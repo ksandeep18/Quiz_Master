@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Quiz Master{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="mb-2">Admin Dashboard</h1>
+            <p class="lead text-secondary">Manage quizzes, users, and platform content</p>
+        </div>
+        <div class="col-md-4 d-flex justify-content-md-end align-items-center">
+            <div class="btn-group">
+                <a href="{{ url_for('manage_subjects') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Add Subject
+                </a>
+                <a href="{{ url_for('manage_quizzes') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-plus me-2"></i>Add Quiz
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-5">
+        <!-- Stats Cards -->
+        <div class="col-md-4 mb-4">
+            <div class="card dashboard-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="icon-box mb-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="card-title mb-3">Users</h5>
+                        <div class="stat-value">{{ user_count }}</div>
+                        <p class="text-secondary mb-4">Registered users on the platform</p>
+                    </div>
+                    <a href="{{ url_for('manage_users') }}" class="btn btn-primary w-100">
+                        <i class="fas fa-user-cog me-2"></i>Manage Users
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card dashboard-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="icon-box mb-3">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h5 class="card-title mb-3">Subjects</h5>
+                        <div class="stat-value">{{ subject_count }}</div>
+                        <p class="text-secondary mb-4">Total subjects available</p>
+                    </div>
+                    <a href="{{ url_for('manage_subjects') }}" class="btn btn-primary w-100">
+                        <i class="fas fa-book-open me-2"></i>Manage Subjects
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card dashboard-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="icon-box mb-3">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h5 class="card-title mb-3">Quizzes</h5>
+                        <div class="stat-value">{{ quiz_count }}</div>
+                        <p class="text-secondary mb-4">Active quizzes in the system</p>
+                    </div>
+                    <a href="{{ url_for('manage_quizzes') }}" class="btn btn-primary w-100">
+                        <i class="fas fa-clipboard-list me-2"></i>Manage Quizzes
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Quizzes</h5>
+                    <a href="{{ url_for('manage_quizzes') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    {% if recent_quizzes %}
+                        <div class="list-group list-group-flush">
+                            {% for quiz in recent_quizzes %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ quiz.title }}</h6>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-primary me-2">
+                                                <i class="fas fa-calendar-alt me-1"></i>{{ quiz.date.strftime('%d %b %Y') }}
+                                            </span>
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-clock me-1"></i>{{ quiz.duration }} min
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="{{ url_for('manage_questions', quiz_id=quiz.id) }}" class="btn btn-sm btn-primary me-2">
+                                            <i class="fas fa-question-circle me-1"></i>Questions
+                                        </a>
+                                        <a href="{{ url_for('edit_quiz', id=quiz.id) }}" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit me-1"></i>Edit
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-clipboard-list fa-4x text-muted mb-3"></i>
+                            <h4>No Quizzes Yet</h4>
+                            <p class="text-muted mb-4">Create your first quiz to get started</p>
+                            <a href="{{ url_for('manage_quizzes') }}" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Create First Quiz
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <a href="{{ url_for('manage_subjects') }}" class="card h-100 text-decoration-none">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
+                                    <div class="icon-box mb-3">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <h6 class="text-center">Manage Subjects</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ url_for('manage_chapters') }}" class="card h-100 text-decoration-none">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
+                                    <div class="icon-box mb-3">
+                                        <i class="fas fa-bookmark"></i>
+                                    </div>
+                                    <h6 class="text-center">Manage Chapters</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ url_for('manage_users') }}" class="card h-100 text-decoration-none">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
+                                    <div class="icon-box mb-3">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <h6 class="text-center">Manage Users</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ url_for('admin_analytics') }}" class="card h-100 text-decoration-none">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
+                                    <div class="icon-box mb-3">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <h6 class="text-center">View Analytics</h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>System Overview</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <canvas id="quizDistributionChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <canvas id="subjectDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create subject distribution chart
+        const subjectLabels = [];
+        const subjectData = [];
+        
+        // Here we would typically fetch this data from the server
+        // For now, we'll use placeholder data
+        {% if subject_count > 0 %}
+            {% for i in range(1, subject_count + 1) %}
+                subjectLabels.push('Subject {{ i }}');
+                subjectData.push({{ i }});
+            {% endfor %}
+        {% else %}
+            subjectLabels.push('No Data');
+            subjectData.push(0);
+        {% endif %}
+        
+        createPieChart('subjectDistributionChart', subjectLabels, subjectData, 'Quiz Distribution by Subject');
+        
+        // Create monthly quizzes chart
+        const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const quizData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        
+        // Here we would typically fetch this data from the server
+        // For now, we'll use the current month's data
+        const currentMonth = new Date().getMonth();
+        quizData[currentMonth] = {{ quiz_count }};
+        
+        createBarChart('quizDistributionChart', monthLabels, quizData, 'Quizzes Created by Month');
+    });
+</script>
+{% endblock %}
+{% endblock %}
