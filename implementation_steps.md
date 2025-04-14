@@ -14,7 +14,7 @@ This document outlines the detailed steps taken to implement the Quiz Master pla
 
 2. **Environment Setup**
    - Configured Flask application structure
-   - Set up PostgreSQL database connection
+   - Set up Sqlite database connection
    - Installed required dependencies
    - Created configuration files
 
