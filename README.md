@@ -18,7 +18,8 @@
 
 ## Introduction
 
-Quiz Master is a comprehensive web-based quiz platform designed to facilitate knowledge assessment and learning. Built with Flask and PostgreSQL, it provides a robust environment for creating, managing, and taking quizzes across various subjects and topics. The platform features role-based access control, advanced analytics, and a user-friendly interface that makes it suitable for educational institutions, training programs, and self-assessment.
+Quiz Master is a comprehensive web-based quiz platform designed to facilitate knowledge assessment and learning. Built with Flask and Sqlite
+, it provides a robust environment for creating, managing, and taking quizzes across various subjects and topics. The platform features role-based access control, advanced analytics, and a user-friendly interface that makes it suitable for educational institutions, training programs, and self-assessment.
 
 ### Key Features
 
