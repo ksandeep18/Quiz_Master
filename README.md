@@ -53,7 +53,7 @@ Quiz Master is a comprehensive web-based quiz platform designed to facilitate kn
 Quiz Master is built on a modern web stack with the following components:
 
 - **Backend**: Flask (Python web framework)
-- **Database**: PostgreSQL (Relational database)
+- **Database**: Sqlite (Relational database)
 - **ORM**: SQLAlchemy (Object-Relational Mapping)
 - **Frontend**: Bootstrap 5, HTML5, CSS3, JavaScript
 - **Authentication**: Flask-Login
